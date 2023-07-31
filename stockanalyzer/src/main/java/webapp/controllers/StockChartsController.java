@@ -1,5 +1,9 @@
 package webapp.controllers;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +26,16 @@ public class StockChartsController {
 
     @GetMapping({"/run-scan"})
     public List<Stock> runScan(@RequestParam String[] industries) {
-        stockChartsService.login("ronshen0404@gmail.com", "FLAME-WEEKDAY-606");
+        String filePath = "/home/ron/Desktop/account";
+        String username = null;
+        String password = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            username = reader.readLine();
+            password = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stockChartsService.login(username, password);
         Set<Stock> scannedStocks = stockChartsService.scan(industries);
         List<Stock> updateStockList = stockChartsService.updateStockList(scannedStocks);
         return updateStockList;
