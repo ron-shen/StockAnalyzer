@@ -12,7 +12,7 @@ public class GeneralConfiguration {
     @Bean
     public ChromeDriver chromeDriver(){
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
+        //options.addArguments("--headless=new");
         return new ChromeDriver(options);
     }
     @Bean

@@ -22,6 +22,7 @@ public class StockChartsController {
 
     @GetMapping({"/run-scan"})
     public List<Stock> runScan(@RequestParam String[] industries) {
+        stockChartsService.login("ronshen0404@gmail.com", "FLAME-WEEKDAY-606");
         Set<Stock> scannedStocks = stockChartsService.scan(industries);
         List<Stock> updateStockList = stockChartsService.updateStockList(scannedStocks);
         return updateStockList;
@@ -29,7 +30,6 @@ public class StockChartsController {
 
     @GetMapping({"/screened-stocks"})
     public List<Stock> getScreenedStocks() {
-        return null;
-       // return stockRepository.findAll();
+        return stockChartsService.getAllStocks();
     }
 }

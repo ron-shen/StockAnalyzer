@@ -70,7 +70,10 @@ public class StockChartsService {
         WebElement entriesButton = driver.findElement(By.xpath("//option[text()='All']"));
         entriesButton.click();
         List<WebElement> elements = driver.findElements(By.xpath("//tbody/tr"));
-        return filterScanResult(elements, industries);
+        Set<Stock> res = filterScanResult(elements, industries);
+        driver.close();
+        driver.switchTo().window(originalWindowHandle);
+        return res;
     }
 
     public List<Stock> updateStockList(Set<Stock> scannedStocks){
@@ -95,6 +98,10 @@ public class StockChartsService {
         savedStocks.addAll(scannedStocks);
         stockRepository.saveAll(savedStocks);
         return savedStocks;
+    }
+
+    public List<Stock> getAllStocks(){
+        return stockRepository.findAll();
     }
 
     //filter the stocks based on the industries interested

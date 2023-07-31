@@ -90,6 +90,7 @@ public class StockChartsServiceTest {
                 "Software", dummyDate, true);
 
         List<Stock> savedStocks = new ArrayList<>();
+        Mockito.when(mockStockRepository.findAll()).thenReturn(savedStocks);
         savedStocks.add(tsla);
         savedStocks.add(aapl);
         savedStocks.add(amd);
@@ -108,12 +109,23 @@ public class StockChartsServiceTest {
         scannedStocks.add(newAmd);
         scannedStocks.add(newNvda);
 
-        Mockito.when(mockStockRepository.findAll()).thenReturn(savedStocks);
         List<Stock> updatedStocks = stockCharts.updateStockList(scannedStocks);
         tsla.setNewScanned(false);
         amd.setNewScanned(false);
-        assertEquals(updatedStocks.get(0), tsla);
-        assertEquals(updatedStocks.get(1), amd);
-        assertEquals(updatedStocks.get(2), newNvda);
+        assertTrue(updatedStocks.contains(tsla));
+        assertTrue(updatedStocks.contains(amd));
+        assertTrue(updatedStocks.contains(newNvda));
+
+        //test if there's no stocks in DB
+        savedStocks.clear();
+        scannedStocks.clear();
+        scannedStocks.add(newTsla);
+        scannedStocks.add(newAmd);
+        scannedStocks.add(newNvda);
+        updatedStocks = stockCharts.updateStockList(scannedStocks);
+        assertTrue(updatedStocks.contains(newTsla));
+        assertTrue(updatedStocks.contains(newAmd));
+        assertTrue(updatedStocks.contains(newNvda));
+
     }
 }
