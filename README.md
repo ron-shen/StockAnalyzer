@@ -1,6 +1,3 @@
-<<<<<<< HEAD
 # StockAnalyzer
-stock analyzer
-=======
-# StockScreener
->>>>>>> 3039afe (first commit)
+screen stocks automatically from stockcharts
+
